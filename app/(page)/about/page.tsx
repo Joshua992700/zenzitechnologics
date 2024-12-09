@@ -4,7 +4,7 @@ import Image from 'next/image'
 const teamMembers = [
   {
     name: 'Lalith Madhavan V',
-    role: 'CEO & Founder',
+    role: 'CEO &amp; Founder',
     description: 'Visionary leader driving innovation.',
     image: 'https://drive.usercontent.google.com/download?id=1uxPWufQYjeQyy2YGQppM0gXTZ2eygk8q&authuser=0'
   },

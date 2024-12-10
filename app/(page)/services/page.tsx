@@ -19,7 +19,7 @@ const services = [
     details: 'Our graphic designers create eye-catching posters that effectively communicate your message. We cater to various needs including event promotion, product launches, and brand awareness campaigns.'
   },
   { 
-    name: 'Logo Designing', 
+    name: 'Logo Design', 
     icon: Aperture, 
     description: 'Crafting unique and memorable brand identities.',
     details: "We design logos that encapsulate your brand's essence. Our process involves in-depth research, conceptualization, and refinement to create a logo that stands out in your industry."

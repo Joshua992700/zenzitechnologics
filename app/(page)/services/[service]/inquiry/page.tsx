@@ -17,6 +17,7 @@ const serviceSpecificFields = {
     { name: 'numberOfItems', label: 'Number of Items', type: 'number' },
     { name: 'preferredStyle', label: 'Preferred Style', type: 'select', options: ['Studio', 'Lifestyle', 'Both'] },
   ],
+  // Add other service-specific fields here
 }
 
 export default function ServiceInquiryPage({ params }: { params: { service: string } }) {
@@ -44,31 +45,60 @@ export default function ServiceInquiryPage({ params }: { params: { service: stri
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    // Prepare the data to insert into productphotography table
-    const dataToInsert = {
-      name: formData.name,
-      email: formData.email,
-      phonenumber: formData.phone,
-      product_type: formData.productType,
-      company_name: userType === 'company' ? formData.companyName : null,
-      industry: userType === 'company' ? formData.industry : null,
-      bussiness_website: userType === 'company' ? formData.website : null,
-      count: parseInt(formData.numberOfItems, 10),
-      preferred_style: formData.preferredStyle,
-      additional_info: formData.message,
-    }
+    // Check which service is selected and prepare the data accordingly
+    if (params.service === 'product-photography') {
+      // Data structure for the 'product-photography' table
+      const dataToInsert = {
+        name: formData.name,
+        email: formData.email,
+        phonenumber: formData.phone,
+        product_type: formData.productType,
+        company_name: userType === 'company' ? formData.companyName : null,
+        industry: userType === 'company' ? formData.industry : null,
+        bussiness_website: userType === 'company' ? formData.website : null,
+        count: parseInt(formData.numberOfItems, 10),
+        preferred_style: formData.preferredStyle,
+        additional_info: formData.message,
+      }
 
-    try {
-      // Insert data into the productphotography table in Supabase
-      const { data, error } = await supabase
-        .from('productphotography')
-        .insert(dataToInsert)
+      try {
+        // Insert data into 'product-photography' table
+        const { data, error } = await supabase
+          .from('product-photography') // Insert into the 'product-photography' table
+          .insert(dataToInsert)
 
-      if (error) throw error
-      console.log("Successful!")
-      router.push('/thank-you')
-    } catch (error) {
-      console.error('Error submitting form:', error)
+        if (error) throw error
+        console.log("Successful!")
+        router.push('/thank-you')
+      } catch (error) {
+        console.error('Error submitting form:', error)
+      }
+    } else {
+      // Data structure for the other table (name, email, phonenumber)
+      const dataToInsert = {
+        name: formData.name,
+        email: formData.email,
+        phonenumber: formData.phone,
+        companyname: userType === 'company' ? formData.companyName : null,
+        industry: userType === 'company' ? formData.industry : null,
+        bussiness_website: userType === 'company' ? formData.website : null,
+        additional_info: formData.message,
+      }
+
+      try {
+        const tablename = params.service
+        // Gets serivce name from params from prev page
+        
+        const { data, error } = await supabase
+          .from(tablename)
+          .insert(dataToInsert)
+
+        if (error) throw error
+        console.log("Successful!")
+        router.push('/thank-you')
+      } catch (error) {
+        console.error('Error submitting form:', error)
+      }
     }
   }
 
